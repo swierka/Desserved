@@ -16,9 +16,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ExcludedProductsListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        android:name=".ExcludedProductsListActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
     </application>
 
 </manifest>

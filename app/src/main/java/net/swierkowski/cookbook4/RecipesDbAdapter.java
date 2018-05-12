@@ -17,11 +17,13 @@ public class RecipesDbAdapter {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + Produkty.TABLE_NAME + " (" +
                     Produkty._ID + " INTEGER PRIMARY KEY," +
-                    Produkty.COLUMN_NAME_NAZWA + " TEXT)";
+                    Produkty.COLUMN_NAME_NAZWA + " TEXT," +
+                    Produkty.COLUMN_NAME_RESTRYKCJE + " INTEGER);";
 
     public static class Produkty implements BaseColumns {
         public static final String TABLE_NAME = "produkty";
         public static final String COLUMN_NAME_NAZWA = "nazwa";
+        public static final String COLUMN_NAME_RESTRYKCJE = "restrykcje";
     }
 
     private static final String TAG = "RecipesDbAdapter";
@@ -66,9 +68,10 @@ public class RecipesDbAdapter {
         }
     }
 
-    public long createProduct(String nazwa) {
+    public long createProduct(String nazwa, int restrykcjeDefault) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(Produkty.COLUMN_NAME_NAZWA, nazwa);
+        initialValues.put(Produkty.COLUMN_NAME_RESTRYKCJE, restrykcjeDefault);
         return mDb.insert(Produkty.TABLE_NAME, null, initialValues);
     }
 
@@ -85,10 +88,10 @@ public class RecipesDbAdapter {
         Cursor mCursor = null;
 
         if (inputText == null || inputText.length () == 0) {
-            mCursor = mDb.query(Produkty.TABLE_NAME, new String[] {Produkty._ID,Produkty.COLUMN_NAME_NAZWA}, null, null, null, null, orderBy, null);
+            mCursor = mDb.query(Produkty.TABLE_NAME, new String[] {Produkty._ID,Produkty.COLUMN_NAME_NAZWA,Produkty.COLUMN_NAME_RESTRYKCJE}, null, null, null, null, orderBy, null);
 
         } else {
-            mCursor = mDb.query(Produkty.TABLE_NAME, new String[] {Produkty._ID,Produkty.COLUMN_NAME_NAZWA},
+            mCursor = mDb.query(Produkty.TABLE_NAME, new String[] {Produkty._ID,Produkty.COLUMN_NAME_NAZWA,Produkty.COLUMN_NAME_RESTRYKCJE},
                     Produkty.COLUMN_NAME_NAZWA + " like '%" + inputText + "%'",
                     null, null, null, orderBy, null);
         }
@@ -99,7 +102,7 @@ public class RecipesDbAdapter {
     }
 
     public Cursor fetchAllProducts() {
-        Cursor mCursor = mDb.query(Produkty.TABLE_NAME, new String[]{Produkty._ID,Produkty.COLUMN_NAME_NAZWA}, null, null, null, null, orderBy, null);
+        Cursor mCursor = mDb.query(Produkty.TABLE_NAME, new String[]{Produkty._ID,Produkty.COLUMN_NAME_NAZWA,Produkty.COLUMN_NAME_RESTRYKCJE}, null, null, null, null, orderBy, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
@@ -107,19 +110,26 @@ public class RecipesDbAdapter {
     }
 
     public void insertSomeProducts() {
-        createProduct("mleko krowie");
-        createProduct("mleko migdałowe");
-        createProduct("mąka pszenna");
-        createProduct("mąka kokosowa");
-        createProduct("mąka ryżowa");
-        createProduct("mąka gryczana");
-        createProduct("orzechy włoskie");
-        createProduct("orzechy ziemne");
-        createProduct("orzechy nerkowca");
+        createProduct("mleko krowie",0);
+        createProduct("mleko migdałowe",0);
+        createProduct("mąka pszenna",0);
+        createProduct("mąka kokosowa",0);
+        createProduct("mąka ryżowa",0);
+        createProduct("mąka gryczana",0);
+        createProduct("orzechy włoskie",0);
+        createProduct("orzechy ziemne",0);
+        createProduct("orzechy nerkowca",0);
     }
 
     public void setOrderBy(String txt) {
         orderBy = txt;
     }
+
+    public boolean updateProduct(long productID, int isExcluded) {
+        ContentValues args = new ContentValues();
+        args.put(Produkty.COLUMN_NAME_RESTRYKCJE, isExcluded);
+        return mDb.update(Produkty.TABLE_NAME, args, Produkty._ID + " = " + productID, null) > 0;
+    }
+
 
 }

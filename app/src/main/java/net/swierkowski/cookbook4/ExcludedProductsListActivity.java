@@ -9,9 +9,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ExcludedProductsListActivity extends AppCompatActivity {
 
@@ -25,14 +27,8 @@ public class ExcludedProductsListActivity extends AppCompatActivity {
 
         dbHelper = new RecipesDbAdapter(this);
         dbHelper.open();
-
-        // Czyścimy dane
-        dbHelper.deleteAllProducts();
-
-        // Dodajemy przykladowe dane
+//        dbHelper.deleteAllProducts();
         dbHelper.insertSomeProducts();
-
-        // Tworzymy listę na podstawie danych w bazie SQLite
         displayListView();
     }
 
@@ -40,14 +36,16 @@ public class ExcludedProductsListActivity extends AppCompatActivity {
     private void displayListView() {
         Cursor cursor = dbHelper.fetchAllProducts();
 
-        String[] columns = new String[] {
+        final String[] columns = new String[] {
                 RecipesDbAdapter.Produkty._ID,
-                RecipesDbAdapter.Produkty.COLUMN_NAME_NAZWA
+                RecipesDbAdapter.Produkty.COLUMN_NAME_NAZWA,
+                RecipesDbAdapter.Produkty.COLUMN_NAME_RESTRYKCJE
         };
 
         int[] to = new int[] {
                 R.id.id,
-                R.id.name
+                R.id.name,
+                R.id.checkBox_product
         };
 
         dataAdapter = new SimpleCursorAdapter(
@@ -68,6 +66,17 @@ public class ExcludedProductsListActivity extends AppCompatActivity {
                                         int position, long id) {
                     Cursor cursor = (Cursor) listView.getItemAtPosition(position);
                     String name = cursor.getString(cursor.getColumnIndexOrThrow("nazwa"));
+                    String productIdString = cursor.getString(cursor.getInt(1));
+                    long productId = Long.parseLong(productIdString);
+
+                    CheckBox checkBox = (CheckBox)findViewById(R.id.checkBox_product);
+                    if (checkBox.isChecked()==false){
+                        checkBox.setChecked(true);
+                    } else { checkBox.setChecked(false);}
+
+                    saveExludedProducts(productId);
+                    Toast.makeText(getApplicationContext(),name+" "+checkBox.isChecked(),Toast.LENGTH_LONG).show();
+
                 }
             });
 
@@ -94,4 +103,16 @@ public class ExcludedProductsListActivity extends AppCompatActivity {
             });
 
     }
+
+    private void saveExludedProducts(long id){
+
+        CheckBox checkBox = (CheckBox)findViewById(R.id.checkBox_product);
+        if(checkBox.isChecked()){
+            dbHelper.updateProduct(id,1);
+        } else {
+            dbHelper.updateProduct(id,0);
+        }
+    }
+
+
 }
