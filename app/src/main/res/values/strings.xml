@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Dessert Picker</string>
+    <string name="title_activity_main">XXXXXXXXxx</string>
+
+
+    <string name="hint">Wyszukaj...</string>
+
+
+    <string name="bez_glutenu">Bez glutenu</string>
+    <string name="weganskie">Wegańskie</string>
+    <string name="bez_laktozy">Bez laktozy</string>
+    <string name="szukaj_deserow">Szukaj deserów...</string>
+    <string name="wybierz_czego_nie_lubisz">wybierz czego nie lubisz...</string>
+    <string name="intro">bla bla bla bla</string>
+    <string name="szukaj">Szukaj</string>
+    <string name="wyklucz">Wyklucz</string>
+</resources>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/textView_intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/intro" />
+
+    <CheckBox
+        android:id="@+id/cb_gluten"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_intro"
+        android:layout_below="@+id/textView_intro"
+        android:text="@string/bez_glutenu" />
+
+    <CheckBox
+        android:id="@+id/cb_lactose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cb_gluten"
+        android:layout_below="@+id/cb_gluten"
+        android:text="@string/bez_laktozy" />
+
+    <CheckBox
+        android:id="@+id/cb_vegan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cb_lactose"
+        android:layout_below="@+id/cb_lactose"
+        android:text="@string/weganskie" />
+
+
+    <TextView
+        android:id="@+id/textView_exclude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/cb_vegan"
+        android:layout_alignStart="@+id/cb_vegan"
+        android:text="@string/wybierz_czego_nie_lubisz" />
+
+    <Button
+        android:id="@+id/button_exclude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/textView_exclude"
+        android:layout_below="@+id/textView_exclude"
+        android:onClick="onExclude"
+        android:text="@string/wyklucz" />
+
+    <TextView
+        android:id="@+id/textView_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/button_exclude"
+        android:layout_alignStart="@+id/button_exclude"
+        android:text="@string/szukaj_deserow" />
+
+    <Button
+        android:id="@+id/button_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textView_search"
+        android:layout_alignStart="@+id/textView_search"
+        android:text="@string/szukaj" />
+
+</RelativeLayout>
