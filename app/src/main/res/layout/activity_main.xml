@@ -52,9 +52,10 @@
 
     <Button
         android:id="@+id/button_exclude"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:layout_alignStart="@+id/textView_exclude"
         android:layout_below="@+id/textView_exclude"
         android:onClick="onExclude"
@@ -71,9 +72,10 @@
 
     <Button
         android:id="@+id/button_search"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:layout_below="@+id/textView_search"
         android:layout_alignStart="@+id/textView_search"
         android:text="@string/szukaj" />

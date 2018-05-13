@@ -1,24 +1,29 @@
 package net.swierkowski.cookbook4;
 
+import android.app.Activity;
 import android.database.Cursor;
+import android.database.CursorWrapper;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
-import android.widget.Toast;
 
-public class ExcludedProductsListActivity extends AppCompatActivity {
+import net.swierkowski.cookbook4.db.MyCursorAdapter;
+import net.swierkowski.cookbook4.db.RecipesDbAdapter;
+import net.swierkowski.cookbook4.model.Product;
+
+import java.util.ArrayList;
+
+public class ExcludedProductsListActivity extends Activity {
 
     private RecipesDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
+    private MyCursorAdapter mMyCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,22 +32,20 @@ public class ExcludedProductsListActivity extends AppCompatActivity {
 
         dbHelper = new RecipesDbAdapter(this);
         dbHelper.open();
-//        dbHelper.deleteAllProducts();
         dbHelper.insertSomeProducts();
         displayListView();
     }
 
-
     private void displayListView() {
         Cursor cursor = dbHelper.fetchAllProducts();
 
-        final String[] columns = new String[] {
+        final String[] columns = new String[]{
                 RecipesDbAdapter.Produkty._ID,
                 RecipesDbAdapter.Produkty.COLUMN_NAME_NAZWA,
                 RecipesDbAdapter.Produkty.COLUMN_NAME_RESTRYKCJE
         };
 
-        int[] to = new int[] {
+        int[] to = new int[]{
                 R.id.id,
                 R.id.name,
                 R.id.checkBox_product
@@ -55,64 +58,64 @@ public class ExcludedProductsListActivity extends AppCompatActivity {
                 to,
                 0);
 
-
-        ListView lista = (ListView) findViewById(R.id.listaProduktow);
-
-        lista.setAdapter(dataAdapter);
+        final ListView lista = (ListView) findViewById(R.id.listaProduktow);
+        mMyCursorAdapter = new MyCursorAdapter(this, cursor);
+        lista.setAdapter(mMyCursorAdapter);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> listView, View view,
-                                        int position, long id) {
-                    Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-                    String name = cursor.getString(cursor.getColumnIndexOrThrow("nazwa"));
-                    String productIdString = cursor.getString(cursor.getInt(1));
-                    long productId = Long.parseLong(productIdString);
+            @Override
+            public void onItemClick(AdapterView<?> listView, View view,
+                                    int position, long id) {
+                Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+                String productIdString = cursor.getString(cursor.getInt(1));
+                long productId = Long.parseLong(productIdString);
+                int isRestricted = cursor.getInt(cursor.getColumnIndexOrThrow("restrykcje"));
+                changeRestriction(productId,isRestricted);
+            }
+        });
 
-                    CheckBox checkBox = (CheckBox)findViewById(R.id.checkBox_product);
-                    if (checkBox.isChecked()==false){
-                        checkBox.setChecked(true);
-                    } else { checkBox.setChecked(false);}
+        lista.setAdapter(mMyCursorAdapter);
 
-                    saveExludedProducts(productId);
-                    Toast.makeText(getApplicationContext(),name+" "+checkBox.isChecked(),Toast.LENGTH_LONG).show();
+        //mMyCursorAdapter.changeCursor(cursor);
 
-                }
-            });
+        EditText myFilter = (EditText) findViewById(R.id.filter);
+        myFilter.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
 
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
 
-            EditText myFilter = (EditText) findViewById(R.id.filter);
-            myFilter.addTextChangedListener(new TextWatcher() {
-                public void afterTextChanged(Editable s) {
-                }
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                dataAdapter.getFilter().filter(s.toString());
+            }
+        });
 
-                public void beforeTextChanged(CharSequence s, int start,
-                                              int count, int after) {
-                }
-
-                public void onTextChanged(CharSequence s, int start,
-                                          int before, int count) {
-                    dataAdapter.getFilter().filter(s.toString());
-                }
-            });
-
-            dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-                public Cursor runQuery(CharSequence constraint) {
-                    return dbHelper.fetchProductsByName(constraint.toString());
-                }
-            });
+        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            public Cursor runQuery(CharSequence constraint) {
+                return dbHelper.fetchProductsByName(constraint.toString());
+            }
+        });
 
     }
 
-    private void saveExludedProducts(long id){
-
-        CheckBox checkBox = (CheckBox)findViewById(R.id.checkBox_product);
-        if(checkBox.isChecked()){
-            dbHelper.updateProduct(id,1);
-        } else {
+    private void changeRestriction(long id, int isExluded){
+        if(isExluded==1){
             dbHelper.updateProduct(id,0);
+        } else {
+            dbHelper.updateProduct(id, 1);
         }
+        reloadData();
     }
 
+    private void reloadData(){
+        mMyCursorAdapter.notifyDataSetChanged();
+        displayListView();
+    }
 
 }
+
+
+

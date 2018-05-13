@@ -1,4 +1,4 @@
-package net.swierkowski.cookbook4;
+package net.swierkowski.cookbook4.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
+
+import net.swierkowski.cookbook4.model.Product;
+
+import java.util.ArrayList;
 
 public class RecipesDbAdapter {
 
@@ -130,6 +134,5 @@ public class RecipesDbAdapter {
         args.put(Produkty.COLUMN_NAME_RESTRYKCJE, isExcluded);
         return mDb.update(Produkty.TABLE_NAME, args, Produkty._ID + " = " + productID, null) > 0;
     }
-
 
 }
