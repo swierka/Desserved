@@ -32,7 +32,12 @@ public class ExcludedProductsListActivity extends Activity {
 
         dbHelper = new RecipesDbAdapter(this);
         dbHelper.open();
-        dbHelper.insertSomeProducts();
+
+        Boolean isProductsTableEmpty = dbHelper.isProductsEmpty();
+        if(isProductsTableEmpty==true) {
+            dbHelper.insertSomeProducts();
+        }
+
         displayListView();
     }
 
@@ -40,9 +45,9 @@ public class ExcludedProductsListActivity extends Activity {
         Cursor cursor = dbHelper.fetchAllProducts();
 
         final String[] columns = new String[]{
-                RecipesDbAdapter.Produkty._ID,
-                RecipesDbAdapter.Produkty.COLUMN_NAME_NAZWA,
-                RecipesDbAdapter.Produkty.COLUMN_NAME_RESTRYKCJE
+                RecipesDbAdapter.Products._ID,
+                RecipesDbAdapter.Products.COLUMN_NAME_PRODUCTS_NAME,
+                RecipesDbAdapter.Products.COLUMN_NAME_PRODUCTS_RESTRICTION
         };
 
         int[] to = new int[]{
@@ -89,30 +94,38 @@ public class ExcludedProductsListActivity extends Activity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                dataAdapter.getFilter().filter(s.toString());
+                mMyCursorAdapter.getFilter().filter(s.toString());
             }
         });
 
-        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+        mMyCursorAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
                 return dbHelper.fetchProductsByName(constraint.toString());
             }
         });
-
+        
     }
 
-    private void changeRestriction(long id, int isExluded){
-        if(isExluded==1){
+    private void changeRestriction(long id, int isExcluded){
+        if(isExcluded==1){
             dbHelper.updateProduct(id,0);
         } else {
             dbHelper.updateProduct(id, 1);
         }
-        reloadData();
+        updateDisplay();
     }
 
-    private void reloadData(){
+    private void updateDisplay(){
         mMyCursorAdapter.notifyDataSetChanged();
+        dbHelper = new RecipesDbAdapter(this);
+        dbHelper.open();
         displayListView();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        dbHelper.close();
     }
 
 }
