@@ -1,8 +1,9 @@
-package net.swierkowski.cookbook4;
+package net.swierkowski.cookbook4.activities;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
@@ -13,17 +14,18 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 
-import net.swierkowski.cookbook4.db.MyCursorAdapter;
+import net.swierkowski.cookbook4.R;
+import net.swierkowski.cookbook4.db.ExcludedProductsAdapter;
 import net.swierkowski.cookbook4.db.RecipesDbAdapter;
-import net.swierkowski.cookbook4.model.Product;
 
-import java.util.ArrayList;
 
 public class ExcludedProductsListActivity extends Activity {
 
+    public static final int CHANGE_EXCLUDED = 0;
     private RecipesDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
-    private MyCursorAdapter mMyCursorAdapter;
+    private ExcludedProductsAdapter mExcludedProductsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +66,8 @@ public class ExcludedProductsListActivity extends Activity {
                 0);
 
         final ListView lista = (ListView) findViewById(R.id.listaProduktow);
-        mMyCursorAdapter = new MyCursorAdapter(this, cursor);
-        lista.setAdapter(mMyCursorAdapter);
+        mExcludedProductsAdapter = new ExcludedProductsAdapter(this, cursor);
+        lista.setAdapter(mExcludedProductsAdapter);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,9 +81,9 @@ public class ExcludedProductsListActivity extends Activity {
             }
         });
 
-        lista.setAdapter(mMyCursorAdapter);
+        lista.setAdapter(mExcludedProductsAdapter);
 
-        //mMyCursorAdapter.changeCursor(cursor);
+        //mExcludedProductsAdapter.changeCursor(cursor);
 
         EditText myFilter = (EditText) findViewById(R.id.filter);
         myFilter.addTextChangedListener(new TextWatcher() {
@@ -94,16 +96,16 @@ public class ExcludedProductsListActivity extends Activity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                mMyCursorAdapter.getFilter().filter(s.toString());
+                mExcludedProductsAdapter.getFilter().filter(s.toString());
             }
         });
 
-        mMyCursorAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+        mExcludedProductsAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
                 return dbHelper.fetchProductsByName(constraint.toString());
             }
         });
-        
+
     }
 
     private void changeRestriction(long id, int isExcluded){
@@ -116,11 +118,11 @@ public class ExcludedProductsListActivity extends Activity {
     }
 
     private void updateDisplay(){
-        mMyCursorAdapter.notifyDataSetChanged();
-        dbHelper = new RecipesDbAdapter(this);
         dbHelper.open();
+        mExcludedProductsAdapter.notifyDataSetChanged();
         displayListView();
     }
+
 
     @Override
     public void onStop(){

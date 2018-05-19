@@ -6,7 +6,7 @@ public class Recipe {
     private long mId;
     private String mName;
     private String description;
-    private ArrayList<Ingridient> mIngredients;
+    private ArrayList<Ingredient> mIngredients;
     private String photo;
     private boolean mIsVegan;
     private boolean mIsLactoseFree;
@@ -18,7 +18,7 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(long id, String name, String description, ArrayList<Ingridient> ingredients, String photo, boolean isVegan, boolean isLactoseFree, boolean isGlutenFree, int prepTime, int cookingTime) {
+    public Recipe(long id, String name, String description, ArrayList<Ingredient> ingredients, String photo, boolean isVegan, boolean isLactoseFree, boolean isGlutenFree, int prepTime, int cookingTime) {
         mId = id;
         mName = name;
         this.description = description;
@@ -55,11 +55,11 @@ public class Recipe {
         this.description = description;
     }
 
-    public ArrayList<Ingridient> getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return mIngredients;
     }
 
-    public void setIngredients(ArrayList<Ingridient> ingredients) {
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
         mIngredients = ingredients;
     }
 
