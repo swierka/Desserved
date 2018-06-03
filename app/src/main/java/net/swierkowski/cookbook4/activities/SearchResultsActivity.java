@@ -1,8 +1,12 @@
 package net.swierkowski.cookbook4.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.CursorWrapper;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,10 +20,12 @@ import net.swierkowski.cookbook4.R;
 import net.swierkowski.cookbook4.db.ExcludedProductsAdapter;
 import net.swierkowski.cookbook4.db.RecipesDbAdapter;
 import net.swierkowski.cookbook4.db.SearchResultAdapter;
+import net.swierkowski.cookbook4.fragments.IngredientsFragment;
+import net.swierkowski.cookbook4.model.Recipe;
 
 import static net.swierkowski.cookbook4.activities.MainActivity.MY_SETTINGS;
 
-public class SearchResultsActivity extends AppCompatActivity {
+public class SearchResultsActivity extends AppCompatActivity implements IngredientsFragment.OnFragmentInteractionListener {
 
     private RecipesDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
@@ -35,11 +41,10 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         dbHelper.deleteAllRecipes();
         dbHelper.deleteAllIngredients();
-        dbHelper.insertSomeRecipes();
         dbHelper.insertIngredients();
+        dbHelper.insertSomeRecipes();
 
         displayListView();
-        dbHelper.close();
     }
 
 
@@ -48,6 +53,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.getRecipes(isVeganGetInt(),isGlutenFreeGetInt(),isLactoseFreeGetInt());
 
         final String[] columns = new String[]{
+                RecipesDbAdapter.Recipes.COLUMN_NAME_RECIPES_ID,
                 RecipesDbAdapter.Recipes.COLUMN_NAME_RECIPES_NAME,
                 RecipesDbAdapter.Recipes.COLUMN_NAME_RECIPES_IS_VEGAN,
                 RecipesDbAdapter.Recipes.COLUMN_NAME_RECIPES_IS_GLUTEN_FREE,
@@ -57,6 +63,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         };
 
         int[] to = new int[]{
+                R.id.id_list_recipes,
                 R.id.name_list_recipes,
                 R.id.isVegan_list_recipes,
                 R.id.isGlutenFR_list_recipes,
@@ -81,6 +88,15 @@ public class SearchResultsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> listView, View view,
                                     int position, long id) {
 
+
+                Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+                String productIdString = cursor.getString(cursor.getInt(1));
+                Log.e("ID - Recipe", productIdString);
+                getSupportFragmentManager().beginTransaction().add(R.id.wynikiWyszukiwania,IngredientsFragment.newInstance(productIdString),
+                        "Id Recipe").commit();
+
+                Intent intent = new Intent(SearchResultsActivity.this,RecipeDetailsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -110,4 +126,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         return isGlutenFree;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

@@ -19,13 +19,13 @@ public class RecipesDbAdapter {
 
     private static final String SQL_CREATE_ENTRIES_PRODUCTS =
             "CREATE TABLE IF NOT EXISTS " + Products.TABLE_PRODUCTS_NAME + " (" +
-                    Products._ID + " INTEGER PRIMARY KEY," +
+                    Products.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Products.COLUMN_NAME_PRODUCTS_NAME + " TEXT," +
                     Products.COLUMN_NAME_PRODUCTS_RESTRICTION + " INTEGER);";
 
     private static final String SQL_CREATE_ENTRIES_RECIPES =
             "CREATE TABLE " + Recipes.TABLE_RECIPES_NAME + " (" +
-                    Recipes._ID + " INTEGER PRIMARY KEY," +
+                    Recipes.COLUMN_NAME_RECIPES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Recipes.COLUMN_NAME_RECIPES_NAME + " TEXT," +
                     Recipes.COLUMN_NAME_RECIPES_DESCRIPTION + " TEXT," +
                     Recipes.COLUMN_NAME_RECIPES_IMAGE + " TEXT," +
@@ -37,19 +37,21 @@ public class RecipesDbAdapter {
 
     private static final String SQL_CREATE_ENTRIES_INGREDIENTS =
             "CREATE TABLE " + Ingredients.TABLE_INGREDIENTS_NAME + " (" +
-                    Ingredients._ID + " INTEGER PRIMARY KEY," +
+                    Ingredients.COLUMN_NAME_INGREDIENTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Ingredients.COLUMN_NAME_INGREDIENTS_AMOUNT + " TEXT," +
                     Ingredients.COLUMN_NAME_INGREDIENTS_ID_PRODUCT + " INTEGER," +
                     Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE+ " INTEGER);";
 
     public static class Products implements BaseColumns {
         public static final String TABLE_PRODUCTS_NAME = "produkty";
+        public static final String COLUMN_NAME_ID = "_id";
         public static final String COLUMN_NAME_PRODUCTS_NAME = "nazwa_produkty";
         public static final String COLUMN_NAME_PRODUCTS_RESTRICTION = "restrykcje";
     }
 
     public static class Ingredients implements BaseColumns {
         public static final String TABLE_INGREDIENTS_NAME = "skladniki";
+        public static final String COLUMN_NAME_INGREDIENTS_ID = "_id";
         public static final String COLUMN_NAME_INGREDIENTS_AMOUNT = "ilosc";
         public static final String COLUMN_NAME_INGREDIENTS_ID_PRODUCT = "produkty_id";
         public static final String COLUMN_NAME_INGREDIENTS_ID_RECIPE = "przepisy_id";
@@ -57,6 +59,7 @@ public class RecipesDbAdapter {
 
     public static class Recipes implements BaseColumns {
         public static final String TABLE_RECIPES_NAME = "przepisy";
+        public static final String COLUMN_NAME_RECIPES_ID = "_id";
         public static final String COLUMN_NAME_RECIPES_NAME = "nazwa_przepisy";
         public static final String COLUMN_NAME_RECIPES_DESCRIPTION = "opis";
         public static final String COLUMN_NAME_RECIPES_IMAGE = "obraz";
@@ -174,10 +177,10 @@ public class RecipesDbAdapter {
         Cursor mCursor = null;
 
         if (inputText == null || inputText.length () == 0) {
-            mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[] {Products._ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION}, null, null, null, null, orderBy, null);
+            mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[] {Products.COLUMN_NAME_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION}, null, null, null, null, orderBy, null);
 
         } else {
-            mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[] {Products._ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION},
+            mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[] {Products.COLUMN_NAME_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION},
                     Products.COLUMN_NAME_PRODUCTS_NAME + " like '%" + inputText + "%'",
                     null, null, null, orderBy, null);
         }
@@ -188,7 +191,7 @@ public class RecipesDbAdapter {
     }
 
     public Cursor fetchAllProducts() {
-        Cursor mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[]{Products._ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION}, null, null, null, null, orderBy, null);
+        Cursor mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[]{Products.COLUMN_NAME_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION}, null, null, null, null, orderBy, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
@@ -196,7 +199,7 @@ public class RecipesDbAdapter {
     }
 
     public Cursor fetchAllRecipes() {
-        Cursor mCursor = mDb.query(Recipes.TABLE_RECIPES_NAME, new String[]{Recipes._ID,Recipes.COLUMN_NAME_RECIPES_NAME,Recipes.COLUMN_NAME_RECIPES_DESCRIPTION,
+        Cursor mCursor = mDb.query(Recipes.TABLE_RECIPES_NAME, new String[]{Recipes.COLUMN_NAME_RECIPES_ID,Recipes.COLUMN_NAME_RECIPES_NAME,Recipes.COLUMN_NAME_RECIPES_DESCRIPTION,
         Recipes.COLUMN_NAME_RECIPES_IMAGE,Recipes.COLUMN_NAME_RECIPES_IS_GLUTEN_FREE,Recipes.COLUMN_NAME_RECIPES_IS_LACTOSE_FREE,Recipes.COLUMN_NAME_RECIPES_IS_VEGAN,Recipes.COLUMN_NAME_RECIPES_PREP_TIME, Recipes.COLUMN_NAME_RECIPES_COOKING_TIME}, null, null, null, null, orderBy, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -281,7 +284,7 @@ public class RecipesDbAdapter {
     public boolean updateProduct(long productID, int isExcluded) {
         ContentValues args = new ContentValues();
         args.put(Products.COLUMN_NAME_PRODUCTS_RESTRICTION, isExcluded);
-        return mDb.update(Products.TABLE_PRODUCTS_NAME, args, Products._ID + " = " + productID, null) > 0;
+        return mDb.update(Products.TABLE_PRODUCTS_NAME, args, Products.COLUMN_NAME_ID + " = " + productID, null) > 0;
     }
 
     public int countRecords(String tableName){
@@ -306,7 +309,7 @@ public class RecipesDbAdapter {
         int excludedCount = mCount.getCount();
         String [] excludedProducts = new String[excludedCount];
 
-        Cursor mExcluded = mDb.query(Products.TABLE_PRODUCTS_NAME,new String[] {Products._ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION},Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null,null);
+        Cursor mExcluded = mDb.query(Products.TABLE_PRODUCTS_NAME,new String[] {Products.COLUMN_NAME_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION},Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null,null);
 
         if (mExcluded != null) {
         //    mExcluded.moveToFirst();
@@ -325,12 +328,21 @@ public class RecipesDbAdapter {
 
     public String buildQueryExcluded(String [] excludedProducts,int vegan, int glutenFree, int lactoseFree){
         String query =
-        "SELECT * FROM " +
+        "SELECT r." +
+                Recipes.COLUMN_NAME_RECIPES_ID+ ", "+
+                Recipes.COLUMN_NAME_RECIPES_NAME+ ", "+
+                Recipes.COLUMN_NAME_RECIPES_DESCRIPTION+ ", "+
+                Recipes.COLUMN_NAME_RECIPES_IS_VEGAN+ ", "+
+                Recipes.COLUMN_NAME_RECIPES_IS_GLUTEN_FREE+ ", "+
+                Recipes.COLUMN_NAME_RECIPES_IS_LACTOSE_FREE+ ", "+
+                Recipes.COLUMN_NAME_RECIPES_PREP_TIME+ ", "+
+                Recipes.COLUMN_NAME_RECIPES_COOKING_TIME+
+                " FROM " +
         Ingredients.TABLE_INGREDIENTS_NAME+
         " i JOIN "+Recipes.TABLE_RECIPES_NAME+
-        " r ON i." + Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE+"=r."+Recipes._ID+
+        " r ON i." + Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE+"=r."+Recipes.COLUMN_NAME_RECIPES_ID+
         " JOIN "+ Products.TABLE_PRODUCTS_NAME+
-        " p ON i." + Ingredients.COLUMN_NAME_INGREDIENTS_ID_PRODUCT+"=p."+Products._ID;
+        " p ON i." + Ingredients.COLUMN_NAME_INGREDIENTS_ID_PRODUCT+"=p."+Products.COLUMN_NAME_ID;
 
         if(vegan==1 && glutenFree==1 && lactoseFree==1){
             query+=" WHERE "+Recipes.COLUMN_NAME_RECIPES_IS_VEGAN+"="+vegan
@@ -375,12 +387,32 @@ public class RecipesDbAdapter {
 
     public Cursor getRecipes(int vegan, int glutenFree, int lactoseFree){
         String[] excludedProducts = getExcludedTab();
-        Cursor cursor = mDb.rawQuery(buildQueryExcluded(excludedProducts, vegan, glutenFree, lactoseFree), null);
         String query = buildQueryExcluded(excludedProducts, vegan, glutenFree, lactoseFree);
+        Cursor cursor = mDb.rawQuery(query, null);
         Log.e("query", query);
         return cursor;
     }
 
+
+    public Cursor getIngredientsForRecipe(String idRecipe) throws SQLException {
+
+            Cursor mCursor = null;
+            String query =
+                    "SELECT "+Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE+", "+Products.COLUMN_NAME_PRODUCTS_NAME+", "+Ingredients.COLUMN_NAME_INGREDIENTS_AMOUNT+" FROM " + Ingredients.TABLE_INGREDIENTS_NAME +
+                    " i JOIN "+Recipes.TABLE_RECIPES_NAME +
+                    " r ON i." + Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE+"=r."+Recipes.COLUMN_NAME_RECIPES_ID+
+                    " JOIN "+ Products.TABLE_PRODUCTS_NAME +
+                    " p ON i." + Ingredients.COLUMN_NAME_INGREDIENTS_ID_PRODUCT+"=p."+Products.COLUMN_NAME_ID+
+                    " WHERE i."+Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE+"="+idRecipe+";";
+
+            Log.e("query", query);
+            mCursor = mDb.rawQuery(query,null);
+
+            if (mCursor != null) {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+    }
 
 
 }

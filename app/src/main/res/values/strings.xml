@@ -14,4 +14,10 @@
     <string name="intro">bla bla bla bla</string>
     <string name="szukaj">Szukaj</string>
     <string name="wyklucz">Wyklucz</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_summary_fragment">Summary</string>
+    <string name="hello_ingredients_fragment">Ingredient</string>
+    <string name="hello_description_fragment">Descripton</string>
+    <string name="czas_przygotowania">Czas przygotowania</string>
 </resources>

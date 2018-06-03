@@ -47,7 +47,7 @@ public class ExcludedProductsListActivity extends Activity {
         Cursor cursor = dbHelper.fetchAllProducts();
 
         final String[] columns = new String[]{
-                RecipesDbAdapter.Products._ID,
+                RecipesDbAdapter.Products.COLUMN_NAME_ID,
                 RecipesDbAdapter.Products.COLUMN_NAME_PRODUCTS_NAME,
                 RecipesDbAdapter.Products.COLUMN_NAME_PRODUCTS_RESTRICTION
         };
@@ -81,7 +81,7 @@ public class ExcludedProductsListActivity extends Activity {
             }
         });
 
-        lista.setAdapter(mExcludedProductsAdapter);
+  /*      lista.setAdapter(mExcludedProductsAdapter);*/
 
         //mExcludedProductsAdapter.changeCursor(cursor);
 
