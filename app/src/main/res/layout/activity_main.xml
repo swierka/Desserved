@@ -5,42 +5,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/cukierk3"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.MainActivity">
 
-
     <TextView
-        android:id="@+id/textView_intro"
+        android:id="@+id/app_name_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:text="@string/intro" />
+        android:textColor="#e84393"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:textSize="35sp"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+
+    <TextView
+        android:id="@+id/textView_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_name_main"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:textColor="#30336b"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:text="@string/intro"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <CheckBox
         android:id="@+id/cb_gluten"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView_intro"
+        android:layout_alignStart="@+id/textView_intro"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="#30336b"
         android:layout_below="@+id/textView_intro"
-        android:text="@string/bez_glutenu" />
+        android:text="@string/bez_glutenu"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <CheckBox
         android:id="@+id/cb_lactose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cb_gluten"
+        android:layout_alignStart="@+id/cb_gluten"
         android:layout_below="@+id/cb_gluten"
-        android:text="@string/bez_laktozy" />
+        android:textColor="#30336b"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:text="@string/bez_laktozy"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <CheckBox
         android:id="@+id/cb_vegan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cb_lactose"
+        android:layout_alignStart="@+id/cb_lactose"
+        android:textSize="18dp"
+        android:textColor="#30336b"
+        android:textStyle="bold"
         android:layout_below="@+id/cb_lactose"
-        android:text="@string/weganskie" />
+        android:text="@string/weganskie"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 
     <TextView
@@ -49,38 +80,54 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/cb_vegan"
+        android:textColor="#30336b"
+        android:textStyle="bold"
+        android:textSize="18dp"
         android:layout_alignStart="@+id/cb_vegan"
-        android:text="@string/wybierz_czego_nie_lubisz" />
+        android:text="@string/wybierz_czego_nie_lubisz"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <Button
         android:id="@+id/button_exclude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="#4a69bd"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
         android:layout_alignStart="@+id/textView_exclude"
         android:layout_below="@+id/textView_exclude"
         android:onClick="onExclude"
-        android:text="@string/wyklucz" />
+        android:text="@string/wyklucz"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
         android:id="@+id/textView_search"
         android:layout_width="wrap_content"
+        android:textSize="18sp"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:layout_marginTop="20dp"
+        android:textColor="#30336b"
         android:layout_below="@+id/button_exclude"
         android:layout_alignStart="@+id/button_exclude"
-        android:text="@string/szukaj_deserow" />
+        android:text="@string/szukaj_deserow"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <Button
         android:id="@+id/button_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="18sp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="#1e3799"
+        android:textColor="#FFFFFF"
         android:layout_below="@+id/textView_search"
         android:layout_alignStart="@+id/textView_search"
         android:onClick="onSearch"
-        android:text="@string/szukaj" />
+        android:text="@string/szukaj"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 </RelativeLayout>

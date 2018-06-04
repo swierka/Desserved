@@ -20,13 +20,13 @@ public class SearchResultAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.search_results_cell, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.search_cell, parent, false);
     }
+
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView nameTv = (TextView) view.findViewById(R.id.name_list_recipes);
-
         TextView isVeganTv = (TextView) view.findViewById(R.id.isVegan_list_recipes);
         TextView isGlutenFreeTv = (TextView) view.findViewById(R.id.isGlutenFR_list_recipes);
         TextView isLactoseFreeTv = (TextView) view.findViewById(R.id.isLactoseFR_list_recipes);
@@ -40,7 +40,8 @@ public class SearchResultAdapter extends CursorAdapter {
         TextView cookTimeTv = (TextView) view.findViewById(R.id.cookTime_list_recipes);
 
         String recipeName = cursor.getString(cursor.getColumnIndexOrThrow("nazwa_przepisy"));
-        String id = cursor.getString(cursor.getInt(1));
+        int id = cursor.getInt(cursor.getInt(1));
+
         int isVeganInt = cursor.getInt(cursor.getColumnIndexOrThrow("weganskie"));
         int isGlutenFreeInt = cursor.getInt(cursor.getColumnIndexOrThrow("bez_glutenu"));
         int isLactoseFreeInt = cursor.getInt(cursor.getColumnIndexOrThrow("bez_laktozy"));
@@ -48,7 +49,7 @@ public class SearchResultAdapter extends CursorAdapter {
         int cookTimeInt = cursor.getInt(cursor.getColumnIndexOrThrow("czas_pieczenia"));
 
         nameTv.setText(recipeName);
-        idTv.setText(id);
+        idTv.setText(Integer.toString(id));
 
         if(isVeganInt==1){
             isVeganImage.setVisibility(View.VISIBLE);
@@ -70,8 +71,5 @@ public class SearchResultAdapter extends CursorAdapter {
 
         prepTimeTv.setText(prepTimeInt+"");
         cookTimeTv.setText(cookTimeInt+"");
-
     }
-
-
 }

@@ -1,14 +1,17 @@
 package net.swierkowski.cookbook4.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button btnSearch = (Button)findViewById(R.id.button_search);
+        setRoundedDrawable(btnSearch,Color.GRAY,Color.GRAY);
+        Button btnExclude= (Button)findViewById(R.id.button_exclude);
+        setRoundedDrawable(btnExclude,Color.GRAY,Color.GRAY);
 
         SharedPreferences settings = getSharedPreferences(MY_SETTINGS, MODE_PRIVATE);
         CheckBox isVeganCb = (CheckBox)findViewById(R.id.cb_vegan);
@@ -61,5 +69,16 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("gluten",isGlutenFree);
         editor.putBoolean("lactose",isLactoseFree);
         editor.commit();
+    }
+
+    public static void setRoundedDrawable(Button button, int backgroundColor, int borderColor) {
+        GradientDrawable shape = new GradientDrawable();
+        shape.setShape(GradientDrawable.RECTANGLE);
+        shape.setCornerRadius(30f);
+        shape.setColor(backgroundColor);
+        if (borderColor != 0){
+            shape.setStroke((int)3f, borderColor);
+        }
+        button.setBackgroundDrawable(shape);
     }
 }

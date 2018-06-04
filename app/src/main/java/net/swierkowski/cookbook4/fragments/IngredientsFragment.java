@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,20 +17,11 @@ import net.swierkowski.cookbook4.db.RecipesDbAdapter;
 import net.swierkowski.cookbook4.db.SearchResultAdapter;
 import net.swierkowski.cookbook4.model.Recipe;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link IngredientsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link IngredientsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class IngredientsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+public class IngredientsFragment extends ListFragment {
+
     private static final String RECIPE_ID = "recipe_id";
 
-    // TODO: Rename and change types of parameters
     private RecipesDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
     private IngredientAdapter adapter;
@@ -40,13 +32,6 @@ public class IngredientsFragment extends Fragment {
 
     public IngredientsFragment() {}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-
-     * @return A new instance of fragment IngredientsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static IngredientsFragment newInstance(String mRecipeId) {
         IngredientsFragment fragment = new IngredientsFragment();
         Bundle args = new Bundle();
@@ -55,19 +40,19 @@ public class IngredientsFragment extends Fragment {
         return fragment;
     }
 
-/*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-*/
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_ingredients, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_ingredients, container, false);
 
         dbHelper = new RecipesDbAdapter(getActivity());
         dbHelper.open();
@@ -77,11 +62,11 @@ public class IngredientsFragment extends Fragment {
         }
 
         Cursor cursor = dbHelper.getIngredientsForRecipe(mRecipeId);
-        listView=(ListView)view.findViewById(R.id.skladniki_lista);
+        listView=(ListView)rootView.findViewById(R.id.skladniki_lista);
 
 
         final String[] columns = new String[]{
-                RecipesDbAdapter.Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE,
+                RecipesDbAdapter.Recipes.COLUMN_NAME_RECIPES_ID,
                 RecipesDbAdapter.Products.COLUMN_NAME_PRODUCTS_NAME,
                 RecipesDbAdapter.Ingredients.COLUMN_NAME_INGREDIENTS_AMOUNT,
         };
@@ -100,12 +85,13 @@ public class IngredientsFragment extends Fragment {
                 0);
 
 
+
         adapter = new IngredientAdapter(inflater.getContext(),cursor);
         listView.setAdapter(adapter);
-        return view;
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -130,16 +116,6 @@ public class IngredientsFragment extends Fragment {
         dbHelper.close();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

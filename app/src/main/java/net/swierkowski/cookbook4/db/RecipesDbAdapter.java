@@ -250,7 +250,12 @@ public class RecipesDbAdapter {
         createProduct("orzechy włoskie");
         createProduct("orzechy ziemne");
         createProduct("orzechy nerkowca");
-        createProduct("jajka");
+        createProduct("truskawki");
+        createProduct("maliny");
+        createProduct("jabłka");
+        createProduct("banany");
+        createProduct("Śmietana");
+        createProduct("ser");
     }
 
     public void insertSomeRecipes() {
@@ -265,15 +270,15 @@ public class RecipesDbAdapter {
     }
 
     public void insertIngredients() {
-        createIngredient("3 szt.",10,2);
-        createIngredient("2 szt.",10,3);
-        createIngredient("2 szt.",10,5);
-        createIngredient("2 szklanki",3,2);
-        createIngredient("2 szklanki",3,5);
+        createIngredient("back3 szt.",10,2);
+        createIngredient("back2 szt.",10,3);
+        createIngredient("back2 szt.",10,5);
+        createIngredient("back2 szklanki",3,2);
+        createIngredient("back2 szklanki",3,5);
         createIngredient("250 ml",1,2);
         createIngredient("250 ml",1,5);
         createIngredient("100 g",7,5);
-        createIngredient("2 szklanki",4,1);
+        createIngredient("back2 szklanki",4,1);
         createIngredient("300 ml",2,1);
     }
 
@@ -294,7 +299,7 @@ public class RecipesDbAdapter {
     }
 
     public int countExcluded (){
-        String [] args ={"1"};
+        String [] args ={"back1"};
 
         Cursor mCount = mDb.query(Products.TABLE_PRODUCTS_NAME,null,Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null);
         int excludedCount = mCount.getCount();
@@ -303,7 +308,7 @@ public class RecipesDbAdapter {
 
 
     public String [] getExcludedTab (){
-        String [] args ={"1"};
+        String [] args ={"back1"};
 
         Cursor mCount = mDb.query(Products.TABLE_PRODUCTS_NAME,null,Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null);
         int excludedCount = mCount.getCount();
@@ -398,7 +403,7 @@ public class RecipesDbAdapter {
 
             Cursor mCursor = null;
             String query =
-                    "SELECT "+Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE+", "+Products.COLUMN_NAME_PRODUCTS_NAME+", "+Ingredients.COLUMN_NAME_INGREDIENTS_AMOUNT+" FROM " + Ingredients.TABLE_INGREDIENTS_NAME +
+                    "SELECT r."+Recipes.COLUMN_NAME_RECIPES_ID+", "+Products.COLUMN_NAME_PRODUCTS_NAME+", "+Ingredients.COLUMN_NAME_INGREDIENTS_AMOUNT+" FROM " + Ingredients.TABLE_INGREDIENTS_NAME +
                     " i JOIN "+Recipes.TABLE_RECIPES_NAME +
                     " r ON i." + Ingredients.COLUMN_NAME_INGREDIENTS_ID_RECIPE+"=r."+Recipes.COLUMN_NAME_RECIPES_ID+
                     " JOIN "+ Products.TABLE_PRODUCTS_NAME +

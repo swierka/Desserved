@@ -2,16 +2,13 @@ package net.swierkowski.cookbook4.db;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.swierkowski.cookbook4.R;
 
@@ -23,16 +20,15 @@ public class ExcludedProductsAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.product, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.excluded_cell, parent, false);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView tvName = (TextView) view.findViewById(R.id.name);
         CheckBox cbRestriction = (CheckBox) view.findViewById(R.id.checkBox_product);
+
         String name = cursor.getString(cursor.getColumnIndexOrThrow("nazwa_produkty"));
-        String productIdString = cursor.getString(cursor.getInt(1));
-        long productId = Long.parseLong(productIdString);
         int restriction = cursor.getInt(cursor.getColumnIndexOrThrow("restrykcje"));
         tvName.setText(name);
         if(restriction==1){

@@ -1,5 +1,6 @@
 package net.swierkowski.cookbook4.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -32,19 +33,18 @@ public class IngredientAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
         TextView id = (TextView)view.findViewById(R.id.id_list_recipes);
         TextView name = (TextView)view.findViewById(R.id.skladnik_nazwa);
         TextView amount = (TextView)view.findViewById(R.id.skladnik_ilosc);
 
         String ingredientName = cursor.getString(cursor.getColumnIndexOrThrow("nazwa_przepisy"));
         name.setText(ingredientName);
-
         String amountName = cursor.getString(cursor.getColumnIndexOrThrow("ilosc"));
         amount.setText(amountName);
 
         String idName = cursor.getString(cursor.getInt(1));
         id.setText(idName);
-
     }
 
 }

@@ -1,8 +1,6 @@
 package net.swierkowski.cookbook4.activities;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -30,7 +28,7 @@ public class ExcludedProductsListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list);
+        setContentView(R.layout.excluded_layout);
 
         dbHelper = new RecipesDbAdapter(this);
         dbHelper.open();
@@ -46,7 +44,7 @@ public class ExcludedProductsListActivity extends Activity {
     private void displayListView() {
         Cursor cursor = dbHelper.fetchAllProducts();
 
-        final String[] columns = new String[]{
+/*        final String[] columns = new String[]{
                 RecipesDbAdapter.Products.COLUMN_NAME_ID,
                 RecipesDbAdapter.Products.COLUMN_NAME_PRODUCTS_NAME,
                 RecipesDbAdapter.Products.COLUMN_NAME_PRODUCTS_RESTRICTION
@@ -59,11 +57,11 @@ public class ExcludedProductsListActivity extends Activity {
         };
 
         dataAdapter = new SimpleCursorAdapter(
-                this, R.layout.product,
+                this, R.layout.excluded_cell,
                 cursor,
                 columns,
                 to,
-                0);
+                0);*/
 
         final ListView lista = (ListView) findViewById(R.id.listaProduktow);
         mExcludedProductsAdapter = new ExcludedProductsAdapter(this, cursor);
