@@ -13,20 +13,18 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import net.swierkowski.cookbook4.R;
+import net.swierkowski.cookbook4.activities.MainActivity;
 import net.swierkowski.cookbook4.db.RecipesDbAdapter;
-import net.swierkowski.cookbook4.db.SearchResultAdapter;
-import net.swierkowski.cookbook4.model.Recipe;
 
 
-public class IngredientsFragment extends ListFragment {
+public class IngredientsFragment extends Fragment {
 
-    private static final String RECIPE_ID = "recipe_id";
+    private static final String RECIPE_ID = "recipeId";
 
-    private RecipesDbAdapter dbHelper;
-    private SimpleCursorAdapter dataAdapter;
-    private IngredientAdapter adapter;
-    private ListView listView;
+    private IngredientAdapter mIngredientAdapterdapter;
+    private ListView mListView;
     private String mRecipeId;
+    private Cursor mCursor;
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,53 +39,20 @@ public class IngredientsFragment extends ListFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView =  inflater.inflate(R.layout.fragment_ingredients, container, false);
-
-        dbHelper = new RecipesDbAdapter(getActivity());
-        dbHelper.open();
+        mListView=(ListView)rootView.findViewById(R.id.skladniki_lista);
 
         if (getArguments() != null) {
             mRecipeId = getArguments().getString(RECIPE_ID);
         }
 
-        Cursor cursor = dbHelper.getIngredientsForRecipe(mRecipeId);
-        listView=(ListView)rootView.findViewById(R.id.skladniki_lista);
+        mCursor = MainActivity.mDbHelper.getIngredientsForRecipe(mRecipeId);
+        mIngredientAdapterdapter = new IngredientAdapter(inflater.getContext(),mCursor);
 
-
-        final String[] columns = new String[]{
-                RecipesDbAdapter.Recipes.COLUMN_NAME_RECIPES_ID,
-                RecipesDbAdapter.Products.COLUMN_NAME_PRODUCTS_NAME,
-                RecipesDbAdapter.Ingredients.COLUMN_NAME_INGREDIENTS_AMOUNT,
-        };
-
-        int[] to = new int[]{
-                R.id.recipe_id,
-                R.id.skladnik_nazwa,
-                R.id.skladnik_ilosc,
-        };
-
-        dataAdapter = new SimpleCursorAdapter(
-                getContext(), R.layout.ingredients_cell,
-                cursor,
-                columns,
-                to,
-                0);
-
-
-
-        adapter = new IngredientAdapter(inflater.getContext(),cursor);
-        listView.setAdapter(adapter);
+        mListView.setAdapter(mIngredientAdapterdapter);
         return rootView;
     }
 
@@ -113,11 +78,11 @@ public class IngredientsFragment extends ListFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        dbHelper.close();
     }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
