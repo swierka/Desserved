@@ -1,23 +1,22 @@
 <resources>
-    <string name="app_name">DESSERT PICKER</string>
-    <string name="title_activity_main">XXXXXXXXxx</string>
-
-
+    <string name="app_name">DESSERED</string>
+<!--    <string name="title_activity_main">XXXXXXXXxx</string>-->
     <string name="hint">Wyszukaj...</string>
-
-
     <string name="bez_glutenu">Bez glutenu</string>
     <string name="weganskie">Wegańskie</string>
     <string name="bez_laktozy">Bez laktozy</string>
     <string name="szukaj_deserow">Szukaj deserów...</string>
     <string name="wybierz_czego_nie_lubisz">Wybierz, czego nie lubisz...</string>
     <string name="intro">Wyszukaj deser na dziś</string>
-    <string name="szukaj">Szukaj</string>
-    <string name="wyklucz">Wyklucz</string>
+    <string name="szukaj">Szukaj deserów</string>
+    <string name="ulubione">Zapisane przepisy</string>
+    <string name="wyklucz">Wyklucz produkty</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_summary_fragment">Summary</string>
-    <string name="hello_ingredients_fragment">Ingredient</string>
-    <string name="hello_description_fragment">Descripton</string>
+    <string name="short_description">Krótki opis</string>
+    <string name="tags">#tags</string>
+    <string name="hello_ingredients_fragment">Składniki</string>
+    <string name="hello_description_fragment">Instrukcja przygotowania</string>
     <string name="czas_przygotowania">Czas przygotowania</string>
+    <string name="min">min</string>
+    <string name="prepTime">Czas pieczenia</string>
 </resources>

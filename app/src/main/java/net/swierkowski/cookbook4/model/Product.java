@@ -1,26 +1,15 @@
 package net.swierkowski.cookbook4.model;
 
 public class Product {
-    private long id;
     private String name;
     private boolean isRestricted;
 
-    public Product(long id, String name, boolean isRestricted) {
-        this.id = id;
+    public Product(String name) {
         this.name = name;
-        this.isRestricted = isRestricted;
+        this.isRestricted = false;
     }
 
     public Product() {}
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

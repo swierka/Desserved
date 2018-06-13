@@ -1,25 +1,32 @@
 package net.swierkowski.cookbook4.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
+
 import net.swierkowski.cookbook4.R;
+import net.swierkowski.cookbook4.db.DatabaseAccess;
 
 public class MainActivity extends AppCompatActivity {
+
     public static final String MY_SETTINGS = "MySettings";
+    private CheckBox isVeganCb;
+    CheckBox isGlutenFreeCb;
+    CheckBox isLactoseFreeCb;
+    private DatabaseAccess mDbAccess;
+    private Cursor mCursor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +34,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btnSearch = (Button)findViewById(R.id.button_search);
-        setRoundedDrawable(btnSearch,Color.GRAY,Color.GRAY);
+        setRoundedDrawable(btnSearch, R.color.colorAccent,R.color.colorAccent);
+
         Button btnExclude= (Button)findViewById(R.id.button_exclude);
-        setRoundedDrawable(btnExclude,Color.GRAY,Color.GRAY);
+        setRoundedDrawable(btnExclude,R.color.GreyMedium,R.color.GreyMedium);
+
+        Button btnGetFavorite= (Button)findViewById(R.id.button_favorite);
+        setRoundedDrawable(btnGetFavorite,R.color.GreyMedium,R.color.GreyMedium);
 
         SharedPreferences settings = getSharedPreferences(MY_SETTINGS, MODE_PRIVATE);
-        CheckBox isVeganCb = (CheckBox)findViewById(R.id.cb_vegan);
+        isVeganCb = (CheckBox)findViewById(R.id.cb_vegan);
         isVeganCb.setChecked(settings.getBoolean("vegan",false));
-        CheckBox isGlutenFreeCb = (CheckBox)findViewById(R.id.cb_gluten);
+        isGlutenFreeCb = (CheckBox)findViewById(R.id.cb_gluten);
         isGlutenFreeCb.setChecked(settings.getBoolean("gluten",false));
-        CheckBox isLactoseFreeCb = (CheckBox)findViewById(R.id.cb_lactose);
+        isLactoseFreeCb = (CheckBox)findViewById(R.id.cb_lactose);
         isLactoseFreeCb.setChecked(settings.getBoolean("lactose",false));
+
     }
 
     public void onExclude(View view) {
@@ -46,29 +58,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSearch(View view) {
-        Intent intent = new Intent(this,SearchResultsActivity.class);
-        startActivity(intent);
+        mDbAccess = DatabaseAccess.getInstance(this);
+        mDbAccess.open();
+
+        int intVegan=0;
+        int intGlutenFree=0;
+        int intLactoseFree=0;
+
+        if(isVeganCb.isChecked()) intVegan = 1;
+        if(isGlutenFreeCb.isChecked()) intGlutenFree = 1;
+        if(isLactoseFreeCb.isChecked()) intLactoseFree = 1;
+
+        mCursor = mDbAccess.getRecipes(intVegan,intGlutenFree,intLactoseFree);
+
+        if(mCursor.getCount()!=0){
+            Intent intent = new Intent(this,RecipesListActivity.class);
+            intent.putExtra("key","onSearch");
+            startActivity(intent);
+        } else {
+            Toast.makeText(this,"Brak przepisów spełniających kryteria",Toast.LENGTH_SHORT).show();
+        }
+        mDbAccess.close();
+    }
+
+    public void onGetFavorites(View view){
+        mDbAccess = DatabaseAccess.getInstance(this);
+        mDbAccess.open();
+        mCursor = mDbAccess.getFavoritesRecipes();
+        Log.e("CURSOR COUNT","count = "+mCursor.getCount());
+
+        if(mCursor.getCount()!=0){
+            Intent intent = new Intent(this,RecipesListActivity.class);
+            intent.putExtra("key","onGetFavorites");
+            startActivity(intent);
+        } else {
+            Toast.makeText(this,"Brak zapisanych przepisów",Toast.LENGTH_SHORT).show();
+        }
+        mDbAccess.close();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences settings = getSharedPreferences(MY_SETTINGS,MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-
-        CheckBox isVeganCb = (CheckBox)findViewById(R.id.cb_vegan);
-        Boolean isVegan =  isVeganCb.isChecked();
-
-        CheckBox isGlutenFreeCb = (CheckBox)findViewById(R.id.cb_gluten);
-        Boolean isGlutenFree = isGlutenFreeCb.isChecked();
-
-        CheckBox isLactoseFreeCb = (CheckBox)findViewById(R.id.cb_lactose);
-        Boolean isLactoseFree = isLactoseFreeCb.isChecked();
-
-        editor.putBoolean("vegan",isVegan);
-        editor.putBoolean("gluten",isGlutenFree);
-        editor.putBoolean("lactose",isLactoseFree);
-        editor.commit();
+        saveRestrictionPreferences();
     }
 
     public static void setRoundedDrawable(Button button, int backgroundColor, int borderColor) {
@@ -80,5 +117,24 @@ public class MainActivity extends AppCompatActivity {
             shape.setStroke((int)3f, borderColor);
         }
         button.setBackgroundDrawable(shape);
+    }
+
+    private void saveRestrictionPreferences(){
+        SharedPreferences settings = getSharedPreferences(MY_SETTINGS,MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
+        Boolean isVegan =  isVeganCb.isChecked();
+        Boolean isGlutenFree = isGlutenFreeCb.isChecked();
+        Boolean isLactoseFree = isLactoseFreeCb.isChecked();
+
+        editor.putBoolean("vegan",isVegan);
+        editor.putBoolean("gluten",isGlutenFree);
+        editor.putBoolean("lactose",isLactoseFree);
+        editor.commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

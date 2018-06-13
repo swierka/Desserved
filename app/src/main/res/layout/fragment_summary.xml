@@ -4,147 +4,123 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/GreyLight"
     tools:context=".fragments.SummaryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
     <ImageView
-        android:id="@+id/favorite_empty"
+        android:id="@+id/sum_favorite_empty"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
+        android:contentDescription=""
         android:src="@drawable/ic_favorite_border_black_24dp" />
 
     <ImageView
-        android:id="@+id/favorite_full"
+        android:id="@+id/sum_favorite_full"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
         android:src="@drawable/ic_favorite_full_red_34dp"
         android:visibility="invisible"/>
 
     <TextView
-        android:id="@+id/czas_przyg_napis"
+        android:id="@+id/sum_czas_przyg_napis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:text="@string/czas_przygotowania" />
 
     <ImageView
-        android:id="@+id/czas_przyg_image"
+        android:id="@+id/sum_czas_przyg_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/czas_przyg_napis"
-        android:layout_alignLeft="@+id/czas_przyg_napis"
+        android:layout_below="@+id/sum_czas_przyg_napis"
+        android:layout_alignStart="@+id/sum_czas_przyg_napis"
         android:src="@drawable/ic_timer_black_24dp" />
 
     <TextView
-        android:id="@+id/czas_przyg_ile"
+        android:id="@+id/sum_czas_przygotowania_ile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/czas_przyg_image"
-        android:layout_alignBottom="@+id/czas_przyg_image"
-        android:paddingLeft="5dp"
-        android:textSize="18dp"
+        android:layout_toEndOf="@+id/sum_czas_przyg_image"
+        android:layout_alignBottom="@+id/sum_czas_przyg_image"
+        android:paddingStart="5dp"
+        android:textSize="18sp"
         android:text="60" />
 
     <TextView
         android:id="@+id/czas_przyg_min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/czas_przyg_ile"
-        android:layout_alignBottom="@+id/czas_przyg_image"
-        android:paddingLeft="5dp"
-        android:textSize="18dp"
-        android:text="min" />
+        android:layout_toEndOf="@+id/sum_czas_przygotowania_ile"
+        android:layout_alignBottom="@+id/sum_czas_przyg_image"
+        android:paddingStart="5dp"
+        android:textSize="18sp"
+        android:text="@string/min" />
 
     <TextView
-        android:id="@+id/czas_pieczenia_napis"
+        android:id="@+id/sum_czas_pieczenia_napis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginStart="10dp"
-        android:layout_below="@+id/czas_przyg_image"
+        android:layout_below="@+id/sum_czas_przyg_image"
         android:paddingTop="15dp"
-        android:textSize="18dp"
-        android:text="Czas pieczenia" />
+        android:textSize="18sp"
+        android:text="@string/prepTime" />
 
     <ImageView
-        android:id="@+id/czas_pieczenia_image"
+        android:id="@+id/sum_czas_pieczenia_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/czas_pieczenia_napis"
-        android:layout_alignLeft="@+id/czas_pieczenia_napis"
+        android:layout_below="@+id/sum_czas_pieczenia_napis"
+        android:layout_alignStart="@+id/sum_czas_pieczenia_napis"
         android:src="@drawable/ic_timer_black_24dp" />
 
     <TextView
-        android:id="@+id/czas_pieczenia_ile"
+        android:id="@+id/sum_czas_pieczenia_ile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/czas_pieczenia_image"
-        android:layout_alignBottom="@+id/czas_pieczenia_image"
+        android:layout_toRightOf="@+id/sum_czas_pieczenia_image"
+        android:layout_alignBottom="@+id/sum_czas_pieczenia_image"
         android:paddingLeft="5dp"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:text="60" />
 
     <TextView
-        android:id="@+id/czas_pieczenia_min"
+        android:id="@+id/sum_czas_pieczenia_min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/czas_pieczenia_ile"
-        android:layout_alignBottom="@+id/czas_pieczenia_image"
-        android:paddingLeft="5dp"
-        android:textSize="18dp"
-        android:text="min" />
-
-
-    <ImageView
-        android:id="@+id/vegan_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/czas_pieczenia_image"
-        android:paddingTop="10dp"
-        android:layout_alignLeft="@+id/czas_pieczenia_image"
-        android:src="@mipmap/ic_vegan" />
-
-    <ImageView
-        android:id="@+id/lactose_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/vegan_image"
-        android:layout_toRightOf="@id/vegan_image"
-        android:paddingLeft="10dp"
-        android:src="@mipmap/ic_lactose_free" />
-
-    <ImageView
-        android:id="@+id/gluten_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/vegan_image"
-        android:layout_toRightOf="@id/lactose_image"
-        android:paddingLeft="10dp"
-        android:src="@mipmap/ic_gluten_free" />
+        android:layout_toEndOf="@+id/sum_czas_pieczenia_ile"
+        android:layout_alignBottom="@+id/sum_czas_pieczenia_image"
+        android:paddingStart="5dp"
+        android:textSize="18sp"
+        android:text="@string/min" />
 
     <TextView
-        android:id="@+id/sum_desc_title"
+        android:id="@+id/sum_tagi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gluten_image"
+        android:layout_below="@+id/sum_czas_pieczenia_min"
         android:paddingTop="15dp"
-        android:layout_alignLeft="@+id/czas_pieczenia_image"
-        android:textSize="18dp"
-        android:text="@string/hello_summary_fragment"
+        android:layout_alignStart="@+id/sum_czas_pieczenia_image"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/tags"
         />
 
 
@@ -152,10 +128,10 @@
         android:id="@+id/sum_short_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sum_desc_title"
+        android:layout_below="@+id/sum_tagi"
         android:paddingTop="5dp"
-        android:layout_alignLeft="@+id/sum_desc_title"
-        android:textSize="18dp"
-        android:text="Descr" />
+        android:layout_alignStart="@+id/sum_tagi"
+        android:textSize="18sp"
+        android:text="@string/short_description" />
 
 </RelativeLayout>

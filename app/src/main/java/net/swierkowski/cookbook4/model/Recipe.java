@@ -1,13 +1,16 @@
 package net.swierkowski.cookbook4.model;
 
+
 import java.util.ArrayList;
 
 public class Recipe {
     private long mId;
     private String mName;
-    private String description;
+    private String mDescription;
+    private String mShortDescription;
     private ArrayList<Ingredient> mIngredients;
-    private String photo;
+    private ArrayList<Tag> mTags;
+    private String mPhoto;
     private boolean mIsVegan;
     private boolean mIsLactoseFree;
     private boolean mIsGlutenFree;
@@ -18,18 +21,34 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(long id, String name, String description, ArrayList<Ingredient> ingredients, String photo, boolean isVegan, boolean isLactoseFree, boolean isGlutenFree, int prepTime, int cookingTime) {
+    public Recipe(long id, String name, String description, String shortDescription, ArrayList<Ingredient> ingredients, ArrayList<Tag> tags, String photo, boolean isVegan, boolean isLactoseFree, boolean isGlutenFree, int prepTime, int cookingTime) {
         mId = id;
         mName = name;
-        this.description = description;
+        mDescription = description;
+        mShortDescription = shortDescription;
         mIngredients = ingredients;
-        this.photo = photo;
+        mTags = tags;
+        mPhoto = photo;
         mIsVegan = isVegan;
         mIsLactoseFree = isLactoseFree;
         mIsGlutenFree = isGlutenFree;
         mPrepTime = prepTime;
         mCookingTime = cookingTime;
     }
+
+    public Recipe(String shortDescription, ArrayList<Tag> tags, int prepTime, int cookingTime) {
+        mShortDescription = shortDescription;
+        mTags = tags;
+        mPrepTime = prepTime;
+        mCookingTime = cookingTime;
+    }
+
+    public Recipe(Long id, String name, String photo) {
+        mId=id;
+        mName = name;
+        mPhoto = photo;
+    }
+
 
     public long getId() {
         return mId;
@@ -48,11 +67,19 @@ public class Recipe {
     }
 
     public String getDescription() {
-        return description;
+        return mShortDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        mShortDescription = description;
+    }
+
+    public String getShortDescription() {
+        return mShortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        mShortDescription = shortDescription;
     }
 
     public ArrayList<Ingredient> getIngredients() {
@@ -63,12 +90,20 @@ public class Recipe {
         mIngredients = ingredients;
     }
 
+    public ArrayList<Tag> getTags() {
+        return mTags;
+    }
+
+    public void setTags(ArrayList<Tag> tags) {
+        mTags = tags;
+    }
+
     public String getPhoto() {
-        return photo;
+        return mPhoto;
     }
 
     public void setPhoto(String photo) {
-        this.photo = photo;
+        mPhoto = photo;
     }
 
     public boolean isVegan() {
@@ -109,5 +144,10 @@ public class Recipe {
 
     public void setCookingTime(int cookingTime) {
         mCookingTime = cookingTime;
+    }
+
+    @Override
+    public String toString() {
+        return getName()+" "+getShortDescription()+"(ID"+getId()+")";
     }
 }

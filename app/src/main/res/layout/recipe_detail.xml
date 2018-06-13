@@ -26,7 +26,7 @@
             app:titleEnabled="false">
 
             <ImageView
-                android:id="@+id/htab_header"
+                android:id="@+id/mainImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/ic_cake_black_24dp"
@@ -37,7 +37,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.1"
                 android:background="@android:color/black"
                 android:fitsSystemWindows="true"
             />
@@ -52,14 +52,28 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 
-                <TextView
+                <FrameLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/mainNameBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@color/GreyVeryDark70" />
+
+                    <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nazwa przepisu"
-                    android:id="@+id/nazwa_przepisu"
-                    android:textSize="30dp"
+                    android:id="@+id/mainName"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
                     />
 
+            </FrameLayout>
             </android.support.v7.widget.Toolbar>
 
             <android.support.design.widget.TabLayout
@@ -67,9 +81,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                app:tabIndicatorColor="@android:color/white"
-                app:tabSelectedTextColor="@android:color/holo_green_light"
-                app:tabTextColor="@android:color/white"
+                android:background="@color/GreyVeryDark70"
+                app:tabIndicatorColor="@color/GreyLight"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabTextColor="@color/GreyLight"
                 />
 
         </android.support.design.widget.CollapsingToolbarLayout>

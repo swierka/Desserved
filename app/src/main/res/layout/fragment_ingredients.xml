@@ -5,11 +5,15 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
+    android:background="@color/GreyLight"
     tools:context=".fragments.IngredientsFragment">
+
 
     <ListView
         android:id="@+id/skladniki_lista"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
 
 </LinearLayout>

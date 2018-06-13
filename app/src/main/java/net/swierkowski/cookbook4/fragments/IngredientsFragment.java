@@ -5,54 +5,45 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import net.swierkowski.cookbook4.R;
-import net.swierkowski.cookbook4.activities.MainActivity;
-import net.swierkowski.cookbook4.db.RecipesDbAdapter;
+import net.swierkowski.cookbook4.activities.RecipeDetailsActivity;
+import net.swierkowski.cookbook4.listAdapters.IngredientAdapter;
+import net.swierkowski.cookbook4.db.DatabaseAccess;
 
 
 public class IngredientsFragment extends Fragment {
 
-    private static final String RECIPE_ID = "recipeId";
-
     private IngredientAdapter mIngredientAdapterdapter;
     private ListView mListView;
-    private String mRecipeId;
+    private Long mRecipeId;
     private Cursor mCursor;
+    private DatabaseAccess mDbAccess;
 
     private OnFragmentInteractionListener mListener;
 
     public IngredientsFragment() {}
 
-    public static IngredientsFragment newInstance(String mRecipeId) {
-        IngredientsFragment fragment = new IngredientsFragment();
-        Bundle args = new Bundle();
-        args.putString(RECIPE_ID, mRecipeId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        mDbAccess = DatabaseAccess.getInstance(getContext());
+        mDbAccess.open();
+
         View rootView =  inflater.inflate(R.layout.fragment_ingredients, container, false);
         mListView=(ListView)rootView.findViewById(R.id.skladniki_lista);
+        mRecipeId = RecipeDetailsActivity.RECIPE_ID;
 
-        if (getArguments() != null) {
-            mRecipeId = getArguments().getString(RECIPE_ID);
-        }
-
-        mCursor = MainActivity.mDbHelper.getIngredientsForRecipe(mRecipeId);
+        mCursor = mDbAccess.getIngredientsForRecipe(mRecipeId.toString());
         mIngredientAdapterdapter = new IngredientAdapter(inflater.getContext(),mCursor);
-
         mListView.setAdapter(mIngredientAdapterdapter);
+
+        mDbAccess.close();
         return rootView;
     }
 
