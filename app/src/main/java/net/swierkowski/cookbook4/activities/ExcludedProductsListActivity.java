@@ -86,8 +86,9 @@ public class ExcludedProductsListActivity extends Activity {
     }
 
     private void updateDisplay(){
-        mExcludedProductsAdapter.notifyDataSetChanged();
-        displayListView();
+        /* Aktualizacja danych dla adaptera - nowy kursor */
+        Cursor cursor = mDbAccess.fetchAllProducts();
+        mExcludedProductsAdapter.changeCursor(cursor);
         index++;
     }
 
