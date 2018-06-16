@@ -1,7 +1,14 @@
 package net.swierkowski.cookbook4.activities;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +17,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,11 +40,14 @@ public class RecipeDetailsActivity extends AppCompatActivity implements SummaryF
     private DatabaseAccess mDbAccess;
     private Cursor mCursor;
     private long mId;
+    private Dialog mDialog;
+    private Drawable mDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_detail);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         if (getIntent().getExtras() != null) {
             RECIPE_ID = getIntent().getLongExtra(RECIPE_ID_STRING, 0);
@@ -49,15 +63,20 @@ public class RecipeDetailsActivity extends AppCompatActivity implements SummaryF
         mCursor =  mDbAccess.getImageAndNameForRecipeId(String.valueOf(mId));
 
         String name = mCursor.getString(0);
-        String image = mCursor.getString(1);
+        final String image = mCursor.getString(1);
 
-        //assiging data to views
+        //assigning data to views
         nameTv.setText(name);
         int id = getResources().getIdentifier(image,"drawable",getPackageName());
-        Drawable drawable = getResources().getDrawable(id);
-        imageTv.setImageDrawable(drawable);
+        mDrawable = getResources().getDrawable(id);
+        imageTv.setImageDrawable(mDrawable);
 
-        mDbAccess.close();
+        imageTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImageDialog(mDrawable);
+            }
+        });
 
         //tab layout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -87,11 +106,27 @@ public class RecipeDetailsActivity extends AppCompatActivity implements SummaryF
 
             }
         });
+        mDbAccess.close();
     }
 
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public  void showImageDialog(Drawable drawable){
+        mDialog = new Dialog(RecipeDetailsActivity.this);
+        mDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        mDialog.setContentView(getLayoutInflater().inflate(R.layout.image_layout, null));
+        ImageView biggerImage = (ImageView) mDialog.findViewById(R.id.bigImage);
+        biggerImage.setImageDrawable(mDrawable);
+        biggerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+            }
+        });
+        mDialog.show();
     }
 }

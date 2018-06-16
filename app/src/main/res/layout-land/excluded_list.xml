@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/excluded_list"
@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:background="@color/GreyLight"
+    android:background="@drawable/back_horizontal_max"
     android:orientation="vertical"
     tools:context="net.swierkowski.cookbook4.activities.ExcludedProductsListActivity"
     tools:showIn="@layout/excluded_layout">
@@ -17,13 +17,35 @@
         android:id="@+id/filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/icon_clear_filter"
+        android:layout_alignBottom="@+id/icon_clear_filter"
         android:ems="10"
-        android:hint="@string/hint">
+        android:hint="@string/hint"
+        android:focusableInTouchMode="true"
+        android:fontFamily="@font/my_font"
+        android:textStyle="bold">
     </EditText>
+
+
+
+    <ImageView
+        android:id="@+id/icon_clear_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="5dp"
+        android:clickable="true"
+        android:onClick="onClear"
+        android:src="@mipmap/ic_funnel_clear"
+        >
+    </ImageView>
 
     <ListView
         android:id="@+id/listaProduktow"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/filter"
+        />
 
-</LinearLayout>
+</RelativeLayout>

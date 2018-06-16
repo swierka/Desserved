@@ -4,16 +4,20 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_desserved"
+        android:icon="@mipmap/ic_launcher_green_no_back_big"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
         android:name=".activities.ExcludedProductsListActivity"
@@ -22,7 +26,8 @@
          </activity>
         <activity
             android:name=".activities.RecipeDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activities.RecipesListActivity"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,15 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Button btnSearch = (Button)findViewById(R.id.button_search);
-        setRoundedDrawable(btnSearch, R.color.colorAccent,R.color.colorAccent);
-
-        Button btnExclude= (Button)findViewById(R.id.button_exclude);
-        setRoundedDrawable(btnExclude,R.color.GreyMedium,R.color.GreyMedium);
-
-        Button btnGetFavorite= (Button)findViewById(R.id.button_favorite);
-        setRoundedDrawable(btnGetFavorite,R.color.GreyMedium,R.color.GreyMedium);
 
         SharedPreferences settings = getSharedPreferences(MY_SETTINGS, MODE_PRIVATE);
         isVeganCb = (CheckBox)findViewById(R.id.cb_vegan);
@@ -108,16 +101,6 @@ public class MainActivity extends AppCompatActivity {
         saveRestrictionPreferences();
     }
 
-    public static void setRoundedDrawable(Button button, int backgroundColor, int borderColor) {
-        GradientDrawable shape = new GradientDrawable();
-        shape.setShape(GradientDrawable.RECTANGLE);
-        shape.setCornerRadius(30f);
-        shape.setColor(backgroundColor);
-        if (borderColor != 0){
-            shape.setStroke((int)3f, borderColor);
-        }
-        button.setBackgroundDrawable(shape);
-    }
 
     private void saveRestrictionPreferences(){
         SharedPreferences settings = getSharedPreferences(MY_SETTINGS,MODE_PRIVATE);
@@ -137,4 +120,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }

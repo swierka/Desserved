@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#4CAF50</color>
+    <color name="colorAccent">#b8e994</color>
+    <color name="colorAccent60">#60b8e994</color>
+
+ <!--   <color name="colorAccent">#ea8685</color>
+    <color name="colorAccent60">#60ea8685</color>-->
     <color name="colorWhite">#FFFFFF</color>
     <color name="GreyDark">#616161</color>
     <color name="GreyVeryDark">#424242</color>
@@ -10,4 +12,5 @@
     <color name="GreyVeryDark30">#30424242</color>
     <color name="GreyLight">#E0E0E0</color>
     <color name="GreyMedium">#757575</color>
+    <color name="AppName">#2f3640</color>
 </resources>

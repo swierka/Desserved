@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import net.swierkowski.cookbook4.R;
@@ -33,6 +35,9 @@ public class DescriptionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //setting a flag to keep the device awake while user reads an instruction
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         View rootView =  inflater.inflate(R.layout.fragment_description, container, false);
         mRecipeId = RecipeDetailsActivity.RECIPE_ID;
 
@@ -48,6 +53,7 @@ public class DescriptionFragment extends Fragment {
 
         //binding data with a view
         mInstruction = (TextView)rootView.findViewById(R.id.desc_fragment_tv);
+        mInstruction.setMovementMethod(new ScrollingMovementMethod());
         mInstruction.setText(Html.fromHtml(mRecipe.getDescription()));
 
         //closing db

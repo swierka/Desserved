@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DESSERED</string>
+    <string name="app_name">Desserved</string>
 <!--    <string name="title_activity_main">XXXXXXXXxx</string>-->
     <string name="hint">Wyszukaj...</string>
     <string name="bez_glutenu">Bez glutenu</string>
@@ -9,8 +9,8 @@
     <string name="wybierz_czego_nie_lubisz">Wybierz, czego nie lubisz...</string>
     <string name="intro">Wyszukaj deser na dziś</string>
     <string name="szukaj">Szukaj deserów</string>
-    <string name="ulubione">Zapisane przepisy</string>
-    <string name="wyklucz">Wyklucz produkty</string>
+    <string name="ulubione">Ulubione przepisy  </string>
+    <string name="wyklucz">Wyklucz produkty  </string>
 
     <string name="short_description">Krótki opis</string>
     <string name="tags">#tags</string>
@@ -19,4 +19,5 @@
     <string name="czas_przygotowania">Czas przygotowania</string>
     <string name="min">min</string>
     <string name="prepTime">Czas pieczenia</string>
+    <string name="wyczysc">Wyczyść wszystkie</string>
 </resources>

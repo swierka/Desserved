@@ -4,11 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/GreyLight"
+    android:keepScreenOn="true"
     tools:context=".fragments.DescriptionFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/desc_fragment_tv"
@@ -17,7 +15,9 @@
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:text="@string/hello_description_fragment"
-        android:textSize="18dp"/>
-    </ScrollView>
+        android:textSize="18dp"
+        android:scrollbars="vertical"
+        android:fontFamily="@font/my_font"
+        />
 
 </RelativeLayout>

@@ -6,12 +6,16 @@
         <item name="colorPrimary">#4a69bd</item>
         <item name="colorPrimaryDark">#30336b</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/trajan</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:fontFamily">@font/trajan</item>
     </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

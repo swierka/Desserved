@@ -42,7 +42,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:textSize="18sp"
-        android:text="@string/czas_przygotowania" />
+        android:text="@string/czas_przygotowania"
+        android:fontFamily="@font/my_font"/>
 
     <ImageView
         android:id="@+id/sum_czas_przyg_image"
@@ -50,7 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sum_czas_przyg_napis"
         android:layout_alignStart="@+id/sum_czas_przyg_napis"
-        android:src="@drawable/ic_timer_black_24dp" />
+        android:src="@drawable/ic_timer_black_24dp"
+        />
 
     <TextView
         android:id="@+id/sum_czas_przygotowania_ile"
@@ -60,7 +62,8 @@
         android:layout_alignBottom="@+id/sum_czas_przyg_image"
         android:paddingStart="5dp"
         android:textSize="18sp"
-        android:text="60" />
+        android:text="60"
+        android:fontFamily="@font/my_font"/>
 
     <TextView
         android:id="@+id/czas_przyg_min"
@@ -70,7 +73,8 @@
         android:layout_alignBottom="@+id/sum_czas_przyg_image"
         android:paddingStart="5dp"
         android:textSize="18sp"
-        android:text="@string/min" />
+        android:text="@string/min"
+        android:fontFamily="@font/my_font"/>
 
     <TextView
         android:id="@+id/sum_czas_pieczenia_napis"
@@ -81,7 +85,8 @@
         android:layout_below="@+id/sum_czas_przyg_image"
         android:paddingTop="15dp"
         android:textSize="18sp"
-        android:text="@string/prepTime" />
+        android:text="@string/prepTime"
+        android:fontFamily="@font/my_font"/>
 
     <ImageView
         android:id="@+id/sum_czas_pieczenia_image"
@@ -99,7 +104,8 @@
         android:layout_alignBottom="@+id/sum_czas_pieczenia_image"
         android:paddingLeft="5dp"
         android:textSize="18sp"
-        android:text="60" />
+        android:text="60"
+        android:fontFamily="@font/my_font"/>
 
     <TextView
         android:id="@+id/sum_czas_pieczenia_min"
@@ -109,7 +115,8 @@
         android:layout_alignBottom="@+id/sum_czas_pieczenia_image"
         android:paddingStart="5dp"
         android:textSize="18sp"
-        android:text="@string/min" />
+        android:text="@string/min"
+        android:fontFamily="@font/my_font"/>
 
     <TextView
         android:id="@+id/sum_tagi"
@@ -119,8 +126,9 @@
         android:paddingTop="15dp"
         android:layout_alignStart="@+id/sum_czas_pieczenia_image"
         android:textSize="18sp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="#000000"
         android:text="@string/tags"
+        android:fontFamily="@font/my_font"
         />
 
 
@@ -132,6 +140,7 @@
         android:paddingTop="5dp"
         android:layout_alignStart="@+id/sum_tagi"
         android:textSize="18sp"
-        android:text="@string/short_description" />
+        android:text="@string/short_description"
+        android:fontFamily="@font/my_font"/>
 
 </RelativeLayout>

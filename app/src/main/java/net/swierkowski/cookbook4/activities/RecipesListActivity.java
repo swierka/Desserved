@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import net.swierkowski.cookbook4.R;
 import net.swierkowski.cookbook4.db.DatabaseAccess;
@@ -33,7 +34,7 @@ public class RecipesListActivity  extends AppCompatActivity implements Ingredien
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipes_list_grid);
-
+        Log.e("onCreate","onCreate");
 
         mGridView = (GridView)findViewById(R.id.gridView);
         mRecipes = new ArrayList<>();
@@ -43,6 +44,7 @@ public class RecipesListActivity  extends AppCompatActivity implements Ingredien
     }
 
     private void displayGridView() {
+        Log.e("diplay","display VIEW");
         mDbAccess = DatabaseAccess.getInstance(this);
         mDbAccess.open();
 
@@ -53,6 +55,12 @@ public class RecipesListActivity  extends AppCompatActivity implements Ingredien
         }
         else if(buttonMethod.equals("onGetFavorites")) {
             mCursor = mDbAccess.getFavoritesRecipes();
+
+            if(mCursor.getCount()==0){
+                Intent intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
+                Toast.makeText(this,"Brak zapisanych przepisów",Toast.LENGTH_SHORT).show();
+            }
         }
 
         mRecipes.clear();
@@ -109,5 +117,12 @@ public class RecipesListActivity  extends AppCompatActivity implements Ingredien
     public void onFragmentInteraction(Uri uri) {
     }
 
+    public void onResume(){
+        super.onResume();
+       displayGridView();
+
+    }
 
 }
+
+

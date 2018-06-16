@@ -17,14 +17,15 @@
     <TextView
         android:id="@+id/grid_name_recipe"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
         android:background="@color/GreyVeryDark70"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:textColor="@color/colorWhite"
         android:text="Recipe name"
+        android:fontFamily="@font/my_font"
         />
 
 </RelativeLayout>

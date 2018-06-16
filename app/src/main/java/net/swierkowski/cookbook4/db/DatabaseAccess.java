@@ -87,9 +87,8 @@ public class DatabaseAccess {
         public static final String COLUMN_NAME_TAGSRECIPES_ID_RECIPE = "tagsRecipesIdRecipe";
     }
 
-
     public Cursor fetchAllProducts() {
-        mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[]{Products.COLUMN_NAME_PRODUCTS_ID, Products.COLUMN_NAME_PRODUCTS_NAME, Products.COLUMN_NAME_PRODUCTS_RESTRICTION}, null, null, null, null, Products.COLUMN_NAME_PRODUCTS_NAME, null);
+        mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[]{Products.COLUMN_NAME_PRODUCTS_ID, Products.COLUMN_NAME_PRODUCTS_NAME, Products.COLUMN_NAME_PRODUCTS_RESTRICTION}, null, null, null, null, Products.COLUMN_NAME_PRODUCTS_NAME+" ASC", null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
@@ -100,7 +99,7 @@ public class DatabaseAccess {
         Log.w(TAG, "Szukamy: " + inputText);
 
         if (inputText == null || inputText.length () == 0) {
-            mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[] {Products.COLUMN_NAME_PRODUCTS_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION}, null, null, null, null, null, null);
+            mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[] {Products.COLUMN_NAME_PRODUCTS_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION}, null, null, null, null, Products.COLUMN_NAME_PRODUCTS_NAME+" ASC", null);
 
         } else {
             mCursor = mDb.query(Products.TABLE_PRODUCTS_NAME, new String[] {Products.COLUMN_NAME_PRODUCTS_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION},
@@ -131,11 +130,11 @@ public class DatabaseAccess {
     public String [] getExcludedTab (){
         String [] args ={"1"};
 
-        Cursor mCount = mDb.query(Products.TABLE_PRODUCTS_NAME,null,Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null);
-        String [] excludedProducts = new String[mCount.getCount()];
+/*        Cursor mCount = mDb.query(Products.TABLE_PRODUCTS_NAME,null,Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null);
+        String [] excludedProducts = new String[mCount.getCount()];*/
 
-        //REDUNTANT???? - CHECK LATER
         Cursor mExcluded = mDb.query(Products.TABLE_PRODUCTS_NAME,new String[] {Products.COLUMN_NAME_PRODUCTS_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION},Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null,null);
+        String [] excludedProducts = new String[mExcluded.getCount()];
 
         if (mExcluded != null) {
             //    mExcluded.moveToFirst();
@@ -183,7 +182,6 @@ public class DatabaseAccess {
         if ((vegan==1 || glutenFree==1 || lactoseFree==1) && excludedProducts.length!=0) {
             query += " AND r."+Recipes.COLUMN_NAME_RECIPES_ID;
         }
-
 
         if(excludedProducts.length!=0){
             query+=" NOT IN (select r."+Recipes.COLUMN_NAME_RECIPES_ID+" " +
@@ -315,6 +313,12 @@ public class DatabaseAccess {
             mCursor.moveToFirst();
         }
         return mCursor;
+    }
+
+    public Boolean clearRestriction(){
+        ContentValues args = new ContentValues();
+        args.put(Products.COLUMN_NAME_PRODUCTS_RESTRICTION, "0");
+        return mDb.update(Products.TABLE_PRODUCTS_NAME, args, null, null) > 0;
     }
 }
 
