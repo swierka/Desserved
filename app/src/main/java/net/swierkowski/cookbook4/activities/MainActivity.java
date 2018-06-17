@@ -1,5 +1,7 @@
 package net.swierkowski.cookbook4.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -7,12 +9,15 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +47,18 @@ public class MainActivity extends AppCompatActivity {
         isGlutenFreeCb.setChecked(settings.getBoolean("gluten",false));
         isLactoseFreeCb = (CheckBox)findViewById(R.id.cb_lactose);
         isLactoseFreeCb.setChecked(settings.getBoolean("lactose",false));
+
+
+        ImageView logo = (ImageView)findViewById(R.id.app_logo);
+
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               showImageDialogAboutApp();
+
+            }
+        });
 
     }
 
@@ -119,6 +136,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private void showImageDialogAboutApp(){
+
+        Log.e("DIALOG BUILDER","Logo clicked");
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(" ")
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        builder.setView(R.layout.about);
+        builder.create();
+        builder.show();
     }
 
 }

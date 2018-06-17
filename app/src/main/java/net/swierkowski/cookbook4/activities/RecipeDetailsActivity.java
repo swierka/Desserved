@@ -42,6 +42,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements SummaryF
     private long mId;
     private Dialog mDialog;
     private Drawable mDrawable;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +80,12 @@ public class RecipeDetailsActivity extends AppCompatActivity implements SummaryF
         });
 
         //tab layout
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("W skrócie"));
         tabLayout.addTab(tabLayout.newTab().setText("Składniki"));
         tabLayout.addTab(tabLayout.newTab().setText("Opis"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        setCustomFont();
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -129,4 +131,24 @@ public class RecipeDetailsActivity extends AppCompatActivity implements SummaryF
         });
         mDialog.show();
     }
+
+    public void setCustomFont() {
+
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+
+            int tabChildsCount = vgTab.getChildCount();
+
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getAssets(), "sinkin.otf"));
+                }
+            }
+        }
+    }
+
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/GreyLight"
+    android:keepScreenOn="true"
     tools:context=".fragments.SummaryFragment">
 
     <ImageView
@@ -131,16 +132,25 @@
         android:fontFamily="@font/my_font"
         />
 
+    <ScrollView
+        android:id="@+id/SCROLLER_ID"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sum_tagi"
+        android:layout_alignStart="@+id/sum_tagi"
+        android:scrollbars="vertical"
+        android:fillViewport="true">
+
 
     <TextView
         android:id="@+id/sum_short_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sum_tagi"
         android:paddingTop="5dp"
-        android:layout_alignStart="@+id/sum_tagi"
         android:textSize="18sp"
+        android:lineSpacingExtra="3dp"
         android:text="@string/short_description"
         android:fontFamily="@font/my_font"/>
+    </ScrollView>
 
 </RelativeLayout>

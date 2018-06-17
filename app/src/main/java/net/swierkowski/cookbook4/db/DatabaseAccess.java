@@ -20,8 +20,8 @@ public class DatabaseAccess {
         private static DatabaseAccess mInstance;
         private Cursor mCursor;
 
-
-        private DatabaseAccess(Context context) {
+        //must have changed to public to be able to run tests
+      public DatabaseAccess(Context context) {
             this.mOpenHelper = new DatabaseOpenHelper(context);
         }
 
@@ -129,9 +129,6 @@ public class DatabaseAccess {
 
     public String [] getExcludedTab (){
         String [] args ={"1"};
-
-/*        Cursor mCount = mDb.query(Products.TABLE_PRODUCTS_NAME,null,Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null);
-        String [] excludedProducts = new String[mCount.getCount()];*/
 
         Cursor mExcluded = mDb.query(Products.TABLE_PRODUCTS_NAME,new String[] {Products.COLUMN_NAME_PRODUCTS_ID,Products.COLUMN_NAME_PRODUCTS_NAME,Products.COLUMN_NAME_PRODUCTS_RESTRICTION},Products.COLUMN_NAME_PRODUCTS_RESTRICTION+"=?",args,null,null,null,null);
         String [] excludedProducts = new String[mExcluded.getCount()];
