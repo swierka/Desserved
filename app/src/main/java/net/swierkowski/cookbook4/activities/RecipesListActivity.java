@@ -6,9 +6,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.GridView;
 import android.widget.Toast;
 

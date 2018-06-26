@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Desserved</string>
-<!--    <string name="title_activity_main">XXXXXXXXxx</string>-->
     <string name="hint">Wyszukaj...</string>
     <string name="aboutApp">"Aplikacja Desserved pomoże Ci znaleźć przepisy na pyszne desery uwzględniacjąc Twoje preferencje i restrykcje dietetyczne! "</string>
     <string name="cancel">"Zamknij"</string>

@@ -18,7 +18,7 @@ import net.swierkowski.cookbook4.db.DatabaseAccess;
 
 public class IngredientsFragment extends Fragment {
 
-    private IngredientAdapter mIngredientAdapterdapter;
+    private IngredientAdapter mIngredientAdapter;
     private ListView mListView;
     private Long mRecipeId;
     private Cursor mCursor;
@@ -40,8 +40,8 @@ public class IngredientsFragment extends Fragment {
         mRecipeId = RecipeDetailsActivity.RECIPE_ID;
 
         mCursor = mDbAccess.getIngredientsForRecipe(mRecipeId.toString());
-        mIngredientAdapterdapter = new IngredientAdapter(inflater.getContext(),mCursor);
-        mListView.setAdapter(mIngredientAdapterdapter);
+        mIngredientAdapter = new IngredientAdapter(inflater.getContext(),mCursor);
+        mListView.setAdapter(mIngredientAdapter);
 
         mDbAccess.close();
         return rootView;
