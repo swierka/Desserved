@@ -149,6 +149,8 @@ public class DatabaseAccess {
 
     public String buildQueryExcluded(String [] excludedProducts,int vegan, int glutenFree, int lactoseFree){
 
+        int index = 0;
+
         String query =
                 "SELECT r." +
                         Recipes.COLUMN_NAME_RECIPES_ID+ ", "+
@@ -156,23 +158,24 @@ public class DatabaseAccess {
                         Recipes.COLUMN_NAME_RECIPES_IMAGE+
                         " FROM " + Recipes.TABLE_RECIPES_NAME+" r";
 
-        if(vegan==1 && glutenFree==1 && lactoseFree==1){
-            query+=" WHERE "+Recipes.COLUMN_NAME_RECIPES_IS_VEGAN+"="+vegan
-                    +" AND "+Recipes.COLUMN_NAME_RECIPES_IS_LACTOSE_FREE+"="+lactoseFree
-                    +" AND "+Recipes.COLUMN_NAME_RECIPES_IS_GLUTEN_FREE+"="+glutenFree;
-        } else if (vegan==1 && glutenFree==0 && lactoseFree==0){
-            query+=" WHERE "+Recipes.COLUMN_NAME_RECIPES_IS_VEGAN+"="+vegan;
-        } else if (vegan==1 && glutenFree==1 && lactoseFree==0){
-            query+=" WHERE "+Recipes.COLUMN_NAME_RECIPES_IS_VEGAN+"="+vegan+" AND "+Recipes.COLUMN_NAME_RECIPES_IS_GLUTEN_FREE+"="+glutenFree;
-        } else if (vegan==1 && glutenFree==0 && lactoseFree==1){
-            query+=" WHERE "+Recipes.COLUMN_NAME_RECIPES_IS_VEGAN+"="+vegan+" AND "+Recipes.COLUMN_NAME_RECIPES_IS_LACTOSE_FREE+"="+lactoseFree;
-        } else if (vegan==0 && glutenFree==1 && lactoseFree==1) {
-            query+=" WHERE "+Recipes.COLUMN_NAME_RECIPES_IS_GLUTEN_FREE+"="+glutenFree+" AND "+Recipes.COLUMN_NAME_RECIPES_IS_LACTOSE_FREE+"="+lactoseFree;
-        } else if (vegan==0 && glutenFree==1 && lactoseFree==0) {
-            query+=" WHERE "+Recipes.COLUMN_NAME_RECIPES_IS_GLUTEN_FREE+"="+glutenFree;
-        } else if (vegan==0 && glutenFree==0 && lactoseFree==1) {
-            query+=" WHERE "+Recipes.COLUMN_NAME_RECIPES_IS_LACTOSE_FREE+"="+lactoseFree;
-        } else if (vegan==0 && glutenFree==0 && lactoseFree==0 && excludedProducts.length!=0) {
+        if(vegan==1 || glutenFree==1 || lactoseFree==1) {
+            query+=" WHERE ";
+        }
+
+        if(vegan==1) {
+            query +=Recipes.COLUMN_NAME_RECIPES_IS_VEGAN+"="+vegan;
+            index++;
+        }
+        if(lactoseFree==1) {
+            if(index>0){ query+=" AND ";}
+            query +=Recipes.COLUMN_NAME_RECIPES_IS_LACTOSE_FREE+"="+lactoseFree;
+            index++;
+        }
+        if(glutenFree==1 ) {
+            if(index>0){ query+=" AND ";}
+            query +=Recipes.COLUMN_NAME_RECIPES_IS_GLUTEN_FREE+"="+glutenFree;
+        }
+        if (vegan==0 && glutenFree==0 && lactoseFree==0 && excludedProducts.length!=0) {
             query+=" WHERE r."+Recipes.COLUMN_NAME_RECIPES_ID;
         }
 
@@ -193,7 +196,7 @@ public class DatabaseAccess {
         }
 
         StringBuilder stringBuilder = new StringBuilder(query);
-        int index = 0;
+        index = 0;
 
         while(excludedProducts.length!=0 && index < excludedProducts.length){
             stringBuilder.append("p."+Products.COLUMN_NAME_PRODUCTS_NAME+"=\""+excludedProducts[index]+"\"");
@@ -207,7 +210,7 @@ public class DatabaseAccess {
 
         query = stringBuilder.toString();
 
-        Log.e("DATABSE:","Database - build query "+query);
+        Log.e("DATABSE:","NEW QUERY :D "+query);
 
         return query;
     }
